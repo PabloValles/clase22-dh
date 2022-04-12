@@ -16,11 +16,7 @@ const controller = {
   // Detail - Detail from one product
   detail: (req, res) => {
     let productos = JSON.parse(fs.readFileSync(productsFilePath));
-
-    let product = productos.find((p) => p.id === req.params.id);
-
-    console.log(product);
-
+    let product = productos.find((item) => item.id === req.params.id - 1);
     res.render("detail", { product });
   },
 
