@@ -64,6 +64,8 @@ const controller = {
 
     products[id - 1] = editProduct;
 
+    fs.writeFileSync(productsFilePath, JSON.stringify(products), "utf-8");
+
     res.redirect("/products/edit/" + editProduct.id);
   },
 
