@@ -9,25 +9,28 @@ const toThousand = (n) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 const controller = {
   // Root - Show all products
   index: (req, res) => {
-    let productos = JSON.parse(fs.readFileSync(productsFilePath));
     res.render("products", { products });
   },
 
   // Detail - Detail from one product
   detail: (req, res) => {
-    let productos = JSON.parse(fs.readFileSync(productsFilePath));
-    let product = productos.find((item) => item.id === req.params.id - 1);
+    let product = productos.find((item) => item.id == req.params.id);
+
     res.render("detail", { product });
   },
 
   // Create - Form to create
-  create: (req, res) => {
-    // Do the magic
-  },
+  create: (req, res) => res.render("product-create-form"),
 
   // Create -  Method to store
   store: (req, res) => {
-    // Do the magic
+    let productos = JSON.parse(fs.readFileSync(productsFilePath));
+    let lastId = productos.length - 1;
+    console.log(lastId);
+    console.log(req.body);
+    // Guardar el producto
+
+    res.redirect("../products");
   },
 
   // Update - Form to edit
