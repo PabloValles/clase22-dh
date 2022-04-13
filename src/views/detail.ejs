@@ -7,10 +7,6 @@
     <%- include('partials/headerNavbar') %>
     <!-- /Header -->
 
-    <% let finalPrice = 0; if (product.discount > 0) { let descuento
-    =Math.floor(product.price * product.discount) /100; finalPrice =
-    product.price - descuento; }else{ finalPrice = product.price; } %>
-
     <!-- product detail -->
     <div class="container products-wrapper">
       <div class="row">
@@ -62,7 +58,7 @@
                 >EDITAR PRODUCTO</a
               >
               <form
-                action="/products/delete/<%= product.id %>"
+                action="/products/delete/<%= product.id %>/?_method=DELETE"
                 method="POST"
                 style="display: inline-flex"
               >
