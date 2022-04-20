@@ -7,32 +7,38 @@ const router = express.Router();
 // ************ Controller Require ************
 const productsController = require("../controllers/productsController");
 
-// Multer config
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../../public/images"));
+    cb(null, path.join(__dirname, "../../public/images/products"));
   },
   filename: (req, file, cb) => {
-    let archivo = Date.now() + " - " + path.extname(file.originalname);
-    cb(null, archivo);
+    // path.basename(file.originalname) -> nombre del archivo
+    // path.extname(file.originalname) -> nombre de la extension del archivo
+    // file.filename -> nombre del archivo
+
+    const newFileName = `group-${Date.now()}.${path.extname(
+      file.originalname
+    )}`;
+    cb(null, newFileName);
   },
 });
 
-const upload = multer({ storage });
+// Ejecutar la configuración de Multer
+const upload = multer({ storage: storage });
 
 /*** GET ALL PRODUCTS ***/
 router.get("/", productsController.index);
 
 /*** CREATE ONE PRODUCT ***/
 router.get("/create", productsController.create);
-router.post("/create", upload.any(), productsController.store);
+router.post("/create", upload.single("imagen"), productsController.store);
 
 /*** GET ONE PRODUCT ***/
 router.get("/detail/:id", productsController.detail);
 
 // /*** EDIT ONE PRODUCT ***/
 router.get("/edit/:id", productsController.edit);
-router.put("/edit/:id", productsController.update);
+router.put("/edit/:id", upload.single("imagen"), productsController.update);
 
 // /*** DELETE ONE PRODUCT***/
 router.delete("/delete/:id", productsController.destroy);

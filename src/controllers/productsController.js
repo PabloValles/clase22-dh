@@ -32,12 +32,20 @@ const controller = {
   // Create -  Method to store
   store: (req, res) => {
     let id = products[products.length - 1].id + 1;
+    let image = "default-image.png";
+
+    if (req.file) {
+      console.log("producto-imgae:", req.file);
+      image = req.file.filename;
+    }
 
     let newProduct = {
       id,
       ...req.body,
-      image: "default-image.png",
+      image: image,
     };
+
+    console.log(newProduct);
 
     products.push(newProduct);
 
@@ -56,11 +64,20 @@ const controller = {
     let id = parseInt(req.params.id);
     let product = products.find((item) => item.id == id);
 
+    let image = product.image;
+
+    if (req.file) {
+      //console.log("producto-imgae:", req.file);
+      image = req.file.filename;
+    }
+
     let editProduct = {
       id: parseInt(req.params.id),
       ...req.body,
-      image: product.image,
+      image: image,
     };
+
+    //console.log(editProduct);
 
     products[id - 1] = editProduct;
 
